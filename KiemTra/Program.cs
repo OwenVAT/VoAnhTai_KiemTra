@@ -13,6 +13,13 @@ namespace KiemTra
     {
         public static void Bai_1()
         {
+            //            Viết chương trình nhập điểm số(0–10) của một sinh viên.
+            //Nếu điểm< 5 → in "Trượt".
+            //Nếu 5–6.9 → in "Trung bình".
+            //Nếu 7–8.4 → in "Khá".
+            //Nếu 8.5 trở lên → in "Giỏi".
+            //Hỏi người dùng có muốn nhập tiếp(Y / N).Nếu chọn Y → nhập tiếp, nếu N → thoát.
+
             bool checkDiem = false;
             bool checkNhapLai = false;
             double diem = 0;
@@ -58,8 +65,15 @@ namespace KiemTra
             while (chonNhapLai == "Y");
         }
 
-        public static async Task Bai_2()
+        public static void Bai_2()
         {
+            //            Viết chương trình nhập n điểm số của sinh viên(n do người dùng nhập).
+            //Lưu vào mảng int[].
+            //Tính và in:
+            //Điểm trung bình.
+            //Điểm cao nhất.
+            //Điểm thấp nhất.
+
             int n;
             bool check = false;
             do
@@ -95,6 +109,11 @@ namespace KiemTra
         }
         public static void Bai_3()
         {
+            //            Viết chương trình nhập danh sách tên sinh viên(List<string>).
+            //Người dùng nhập liên tục, nhập chuỗi "end" thì dừng.
+            //In toàn bộ danh sách sinh viên vừa nhập.
+            //Tìm và in tên sinh viên dài nhất.
+
             List<string> danhSachSinhVien = new List<string>();
             string inPut;
             do
@@ -106,25 +125,25 @@ namespace KiemTra
             while (inPut != "end");
             List<string> tenSinhVienDaiNhat = new List<string>();
             Console.WriteLine("Danh sach sinh vien: ");
-            int index = 0;
-            tenSinhVienDaiNhat.Add(danhSachSinhVien[0]);
-            for (int i = 1; i < danhSachSinhVien.Count; i++)
+            string tenSV = "";
+            foreach (var item in danhSachSinhVien)
             {
-                Console.WriteLine(danhSachSinhVien[i]);
-                if (danhSachSinhVien[i].Length > tenSinhVienDaiNhat[index].Length)
+                Console.WriteLine(item);
+                if (tenSV.Length < item.Length)
                 {
-                    tenSinhVienDaiNhat[index] = danhSachSinhVien[i];
+                    tenSinhVienDaiNhat.Clear();
+                    tenSinhVienDaiNhat.Add(item);
+                    tenSV = item;
                 }
-                if (danhSachSinhVien[i].Length == tenSinhVienDaiNhat[index].Length)
+                else
                 {
-                    tenSinhVienDaiNhat.Add(danhSachSinhVien[i]);
-                    index++;
+                    if (tenSV.Length == item.Length) { tenSinhVienDaiNhat.Add(item); }
                 }
             }
             Console.WriteLine("Ten sinh vien dai nhat: ");
-            foreach (var ten in tenSinhVienDaiNhat)
+            foreach (var item in tenSinhVienDaiNhat)
             {
-                Console.WriteLine(ten);
+                Console.WriteLine(item);
             }
 
         }
@@ -180,15 +199,82 @@ namespace KiemTra
                 Console.WriteLine("ID cua sinh vien: " + id);
                 Console.WriteLine("Ten cua sinh vien: " + name);
                 Console.WriteLine("Diem cua sinh vien: " + score);
-                Console.WriteLine();
             }
         }
+        public static void Bai_6(List<Student> danhSachSinhVien)
+        {
+            //            Thêm chức năng tìm sinh viên có điểm cao nhất.
+            //Thêm chức năng tìm tất cả sinh viên có điểm ≥ 8.
+            //Cho phép tìm kiếm sinh viên theo tên(so sánh không phân biệt hoa thường).
+
+            Console.Write("Nhap ten sinh vien can tim (khong phan biet chu hoa va chu thuong: ");
+            string tenCanTim = Console.ReadLine();
+            int diemMax = int.MinValue;
+            bool checkTim = false;
+            List<Student> danhSachSinhVienDiemCaoNhat = new List<Student>();
+            List<Student> danhSachSinhVienDiem8 = new List<Student>();
+            List<Student> danhsachSinhVienCanTim = new List<Student>();
+            foreach (var item in danhSachSinhVien)
+            {
+                if (diemMax < item.score)
+                {
+                    diemMax = item.score;
+                    danhSachSinhVienDiemCaoNhat.Clear();
+                    danhSachSinhVienDiemCaoNhat.Add(item);
+                }
+                else
+                {
+                    if (diemMax == item.score) { danhSachSinhVienDiemCaoNhat.Add(item); }
+                }
+                if (item.score >= 8) { danhSachSinhVienDiem8.Add(item); }
+
+                if (tenCanTim.Equals(item.name, StringComparison.OrdinalIgnoreCase))
+                {
+                    danhsachSinhVienCanTim.Add(item);
+                    checkTim = true;
+                }
+
+            }
+            Console.WriteLine("\nSinh vien co diem cao nhat: ");
+            Console.WriteLine();
+            foreach (var item in danhSachSinhVienDiemCaoNhat)
+            {
+                item.Display();
+            }
+            Console.WriteLine("\nSinh vien co diem >=8: ");
+            Console.WriteLine();
+            foreach (var item in danhSachSinhVienDiem8)
+            {
+                item.Display();
+            }
+            if (checkTim)
+            {
+                Console.WriteLine("\nThong tin sinh vien can tim: ");
+                foreach (var item in danhsachSinhVienCanTim)
+                {
+                    item.Display();
+                }
+            }
+            else { Console.WriteLine("Khong tim thay sinh vien co ten " + tenCanTim); }
+        }
+
+
         static void Main(string[] args)
         {
             Bai_1();
             Bai_2();
             Bai_3();
             Bai_4();
+
+            //            Bài 5
+            //Tạo lớp Student:
+            //            Thuộc tính: Id, Name, Score.
+            //Constructor để khởi tạo.
+            //Phương thức Display() để in thông tin.
+            //Trong Main:
+            //Tạo List<Student>.
+            //Nhập từ bàn phím ít nhất 3 sinh viên.
+            //In danh sách sinh viên.
 
             List<Student> danhSachSinhVien = new List<Student>();
 
@@ -210,56 +296,14 @@ namespace KiemTra
                 check = Console.ReadLine();
             }
             while (check == "Y");
-            Console.WriteLine("Danh sach sinh vien: ");
-            for (int i = 0; i < danhSachSinhVien.Count; i++)
-            {
-                danhSachSinhVien[i].Display();
-            }
-            Console.Write("Nhap ten sinh vien can tim (khong phan biet chu hoa va chu thuong: ");
-            string tenCanTim = Console.ReadLine();
-            int diemMax = int.MinValue;
-            bool checkTim = false;
-            List<Student> danhSachSinhVienDiemCaoNhat = new List<Student>();
-            List<Student> danhSachSinhVienDiem8 = new List<Student>();
-            List<Student> danhsachSinhVienCanTim = new List<Student>();
+            Console.WriteLine("\nDanh sach sinh vien: ");
+            Console.WriteLine();
             foreach (var item in danhSachSinhVien)
             {
-                if (diemMax < item.score)
-                {
-                    diemMax = item.score;
-                    danhSachSinhVienDiemCaoNhat.Clear();
-                    danhSachSinhVienDiemCaoNhat.Add(item);
-                }
-                if (diemMax == item.score) { danhSachSinhVienDiemCaoNhat.Add(item); }
-
-                if (item.score >= 8) { danhSachSinhVienDiem8.Add(item); }
-
-                if (tenCanTim.Equals(item.name, StringComparison.OrdinalIgnoreCase))
-                {
-                    danhsachSinhVienCanTim.Add(item);
-                    checkTim = true;
-                }
-
-            }
-            Console.WriteLine("Sinh vien co diem cao nhat: ");
-            foreach (var item in danhSachSinhVienDiemCaoNhat)
-            {
                 item.Display();
             }
-            Console.WriteLine("Sinh vien co diem >=8: ");
-            foreach (var item in danhSachSinhVienDiem8)
-            {
-                item.Display();
-            }
-            if (checkTim)
-            {
-                Console.WriteLine("Thong tin sinh vien can tim: ");
-                foreach (var item in danhsachSinhVienCanTim)
-                {
-                    item.Display();
-                }
-            }
-            else { Console.WriteLine("Khong tim thay sinh vien co ten " + tenCanTim); }
+
+            Bai_6(danhSachSinhVien);
         }
     }
 }
