@@ -21,7 +21,7 @@ namespace KiemTra
             {
                 do
                 {
-                    Console.Write("Nhap diem so cua sinh vien (từ 0 den 10): ");
+                    Console.Write("Nhap diem so cua sinh vien (tu 0 den 10): ");
                     checkDiem = double.TryParse(Console.ReadLine(), out diem);
                     if ((checkDiem == false) || (diem < 0) || (diem > 10))
                     {
